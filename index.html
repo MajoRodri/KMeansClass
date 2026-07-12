@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏔️ Escape Room: La Cueva de los Centroides</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<button id="lang-toggle" onclick="toggleLang()">🌐 EN</button>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: TITLE ━━━━━━━━━━━━━━━━ -->
+<div class="screen active" id="s-title">
+  <div class="pokeball"></div>
+  <h1 class="game-title">ESCAPE<br>ROOM</h1>
+  <h2 class="game-subtitle" data-i18n="game-subtitle">La Cueva de los Centroides</h2>
+  <p class="tagline" data-i18n="game-tagline">🏔️ Un desafío de K-Means Clustering</p>
+  <div class="poke-row" style="margin:14px 0 4px">
+    <div class="poke-box"><img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"  width="64" alt="Pikachu"> <span>Pikachu</span></div>
+    <div class="poke-box"><img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"   width="64" alt="Gengar">  <span>Gengar</span></div>
+    <div class="poke-box"><img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"  width="64" alt="Mewtwo">  <span>Mewtwo</span></div>
+    <div class="poke-box"><img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png"  width="64" alt="Snorlax"> <span>Snorlax</span></div>
+    <div class="poke-box"><img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"    width="64" alt="Charizard"><span>Charizard</span></div>
+  </div>
+  <button class="btn btn-primary" onclick="goTo('s-name')" data-i18n="btn-start">▶ &nbsp; COMENZAR</button>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: NAME ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-name">
+  <div class="card" style="max-width:480px;width:100%;text-align:center;margin:auto;">
+    <h2 style="font-size:26px;margin-bottom:8px;" data-i18n="name-greeting">👋 ¡Hola, Entrenador!</h2>
+    <p data-i18n="name-desc">Antes de entrar a la cueva, necesito saber tu nombre.</p>
+    <input type="text" id="player-name" class="name-input"
+           placeholder="Escribe tu nombre..." maxlength="30"
+           data-i18n-placeholder="name-placeholder"
+           onkeydown="if(event.key==='Enter') startGame()">
+    <button class="btn btn-primary w100" onclick="startGame()" data-i18n="name-btn">Entrar a la Cueva &nbsp;→</button>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: STORY ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-story">
+  <div class="story-card">
+    <div class="cave-icon">🏔️</div>
+    <h2 data-i18n="story-title">La Cueva de los Centroides</h2>
+    <p data-i18n="story-p1">Eres un Entrenador Pokémon atrapado en la Cueva de los Centroides.</p>
+    <p data-i18n="story-p2">Para escapar debes superar <strong style="color:var(--yellow)">6 salas</strong> demostrando que dominas K-Means Clustering.</p>
+    <div class="rules">
+      <ul style="list-style:none;padding:0;">
+        <li data-i18n="rule-1">⚡ Una pregunta por sala</li>
+        <li data-i18n="rule-2">🎯 Una sola oportunidad de respuesta</li>
+        <li data-i18n="rule-3">📋 El Maestro Pokémon registra cada decisión</li>
+      </ul>
+    </div>
+    <button class="btn btn-primary" onclick="goTo('s-sala1')" style="width:100%" data-i18n="story-btn">
+      Empezar la aventura &nbsp;→
+    </button>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 1 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala1">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-1">SALA 1 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-1">SALA 1</span>
+    <span class="sala-title" data-i18n="s1-title">👾 El Legendario Outlier</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s1-sc1">Tu equipo de Pokémon forma un <strong>cluster bien compacto</strong> en el mapa de batalla. El algoritmo K-Means ha calculado su <strong>centroide</strong> justo en el centro.</p>
+    <p data-i18n="s1-sc2">De repente aparece un <strong>Pokémon Legendario</strong> a kilómetros de distancia del grupo. ¡Está moviendo tu bandera de equipo!</p>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 500 190" xmlns="http://www.w3.org/2000/svg">
+      <rect width="500" height="190" fill="#0d0d25"/>
+      <line x1="0" y1="95" x2="500" y2="95" stroke="#1a1a40" stroke-width="1"/>
+      <line x1="250" y1="0" x2="250" y2="190" stroke="#1a1a40" stroke-width="1"/>
+      <circle cx="130" cy="90" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="145" cy="72" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="160" cy="100" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="120" cy="108" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="148" cy="115" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="135" cy="60" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="168" cy="78" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="112" cy="82" r="7" fill="#4a90d9" opacity=".85"/>
+      <text x="140" y="94" text-anchor="middle" font-size="22" fill="white" font-weight="900">✕</text>
+      <rect x="100" y="125" width="80" height="22" rx="5" fill="#1c1c3a"/>
+      <text x="140" y="141" text-anchor="middle" font-size="11" fill="#FFCC00" font-weight="700" data-i18n="s1-centroid">Centroide</text>
+      <line x1="165" y1="92" x2="395" y2="45" stroke="#ff4444" stroke-dasharray="7,5" stroke-width="1.8" opacity=".6"/>
+      <circle cx="420" cy="44" r="34" fill="#9933ff0d"/>
+      <circle cx="420" cy="44" r="24" fill="#9933ff18"/>
+      <image href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png" x="390" y="10" width="60" height="60"/>
+      <text x="393" y="18" font-size="11" fill="#cc88ff" opacity=".8">✦</text>
+      <text x="452" y="16" font-size="9"  fill="#cc88ff" opacity=".6">✦</text>
+      <text x="455" y="62" font-size="8"  fill="#cc88ff" opacity=".5">✦</text>
+      <rect x="356" y="72" width="130" height="22" rx="5" fill="#1a0030"/>
+      <text x="421" y="88" text-anchor="middle" font-size="11" fill="#cc88ff" font-weight="700">👾 Mewtwo (Outlier)</text>
+      <rect x="80" y="8" width="120" height="22" rx="5" fill="#001830"/>
+      <text x="140" y="24" text-anchor="middle" font-size="11" fill="#88bbff" font-weight="700" data-i18n="s1-team">🔵 Tu Equipo (Cluster)</text>
+      <text x="290" y="58" text-anchor="middle" font-size="10" fill="#ff888888" data-i18n="s1-distance">↔ kilómetros de distancia</text>
+    </svg>
+  </div>
+
+  <p class="pregunta" data-i18n="s1-q">❓ ¿Qué le está pasando al CENTROIDE de tu cluster?</p>
+
+  <div class="options-grid" id="opts-sala1">
+    <div class="opt" onclick="selectOption(1, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s1-a">El centroide se desplaza hacia el legendario, alejándose del grupo real</span>
+    </div>
+    <div class="opt" onclick="selectOption(1, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s1-b">El centroide permanece fijo — K-Means es robusto a los outliers</span>
+    </div>
+    <div class="opt" onclick="selectOption(1, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s1-c">K-Means detecta y elimina el outlier automáticamente antes de calcular</span>
+    </div>
+    <div class="opt" onclick="selectOption(1, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s1-d">El centroide se divide en dos para cubrir el grupo y el legendario</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala1">
+    <div class="feedback-box" id="fb-sala1-box">
+      <div class="fb-title" id="fb-sala1-title"></div>
+      <p id="fb-sala1-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="goTo('s-sala2')" data-i18n="s1-next">Siguiente Sala &nbsp;→</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 2 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala2">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-2">SALA 2 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-2">SALA 2</span>
+    <span class="sala-title" data-i18n="s2-title">📐 El Método del Codo</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s2-sc1">El Profesor Kukui te planta un dilema: debes decidir <strong>cuántos equipos (K) formar</strong> en la región antes de aplicar K-Means.</p>
+    <p data-i18n="s2-sc2">Te ha dado la <strong>tabla de Inercia (SSE)</strong> para K del 1 al 7. Analiza el gráfico y encuentra el <strong>"codo"</strong>.</p>
+  </div>
+
+  <div class="chart-wrap">
+    <canvas id="elbow-chart"></canvas>
+  </div>
+
+  <p class="pregunta" data-i18n="s2-q">❓ ¿En qué valor de K se encuentra el CODO de la curva?</p>
+
+  <div class="options-grid" id="opts-sala2">
+    <div class="opt" onclick="selectOption(2, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s2-a">K = 3 &nbsp;— la inercia cae brutalmente de 2100 → 620, luego se aplana</span>
+    </div>
+    <div class="opt" onclick="selectOption(2, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s2-b">K = 5 &nbsp;— menor inercia siempre significa mejor modelo</span>
+    </div>
+    <div class="opt" onclick="selectOption(2, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s2-c">K = 7 &nbsp;— usamos el K con la inercia más baja posible</span>
+    </div>
+    <div class="opt" onclick="selectOption(2, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s2-d">K = 1 &nbsp;— la curva cambia demasiado, señal de inestabilidad</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala2">
+    <div class="feedback-box" id="fb-sala2-box">
+      <div class="fb-title" id="fb-sala2-title"></div>
+      <p id="fb-sala2-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="goTo('s-sala3')" data-i18n="s2-next">Siguiente Sala &nbsp;→</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 3 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala3">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-3">SALA 3 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-3">SALA 3</span>
+    <span class="sala-title" data-i18n="s3-title">📏 La Distancia del Duelo</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s3-sc1">Pikachu y Raichu se enfrentan en el <strong>espacio de features</strong>. K-Means necesita calcular su <strong>similitud</strong> para decidir a qué cluster pertenece cada uno.</p>
+    <p data-i18n="s3-sc2">Stats medidos: <strong>Ataque</strong> y <strong>Defensa</strong>.</p>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
+      <rect width="480" height="220" fill="#0d0d25"/>
+      <line x1="70" y1="10" x2="70"  y2="175" stroke="#1e1e40" stroke-width="1"/>
+      <line x1="70" y1="175" x2="450" y2="175" stroke="#1e1e40" stroke-width="1"/>
+      <line x1="140" y1="10" x2="140" y2="175" stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="220" y1="10" x2="220" y2="175" stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="300" y1="10" x2="300" y2="175" stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="380" y1="10" x2="380" y2="175" stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="70" y1="35"  x2="450" y2="35"  stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="70" y1="80"  x2="450" y2="80"  stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="70" y1="130" x2="450" y2="130" stroke="#1a1a38" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="70"  y="192" text-anchor="middle" font-size="10" fill="#6666aa">30</text>
+      <text x="140" y="192" text-anchor="middle" font-size="10" fill="#6666aa">45</text>
+      <text x="220" y="192" text-anchor="middle" font-size="10" fill="#6666aa">60</text>
+      <text x="300" y="192" text-anchor="middle" font-size="10" fill="#6666aa">75</text>
+      <text x="380" y="192" text-anchor="middle" font-size="10" fill="#6666aa">90</text>
+      <text x="58" y="178" text-anchor="end" font-size="10" fill="#6666aa">25</text>
+      <text x="58" y="133" text-anchor="end" font-size="10" fill="#6666aa">35</text>
+      <text x="58" y="83"  text-anchor="end" font-size="10" fill="#6666aa">50</text>
+      <text x="58" y="38"  text-anchor="end" font-size="10" fill="#6666aa">65</text>
+      <text x="260" y="212" text-anchor="middle" font-size="12" fill="#8888bb" font-weight="700" data-i18n="s3-attack">Ataque ⚔️</text>
+      <text x="18"  y="100" text-anchor="middle" font-size="12" fill="#8888bb" font-weight="700" transform="rotate(-90, 18, 100)" data-i18n="s3-defense">Defensa 🛡️</text>
+      <line x1="70" y1="175" x2="450" y2="175" stroke="#3a3a70" stroke-width="2"/>
+      <line x1="70" y1="175" x2="70"  y2="10"  stroke="#3a3a70" stroke-width="2"/>
+      <line x1="173" y1="130" x2="380" y2="83" stroke="#FFCC00" stroke-dasharray="6,4" stroke-width="2" opacity=".8"/>
+      <circle cx="173" cy="130" r="18" fill="#FFCC0022"/>
+      <image href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" x="146" y="103" width="54" height="54"/>
+      <rect x="80" y="158" width="132" height="24" rx="5" fill="#1c1c3a"/>
+      <text x="146" y="175" text-anchor="middle" font-size="11" fill="#FFCC00" font-weight="700">⚡ Pikachu (55, 40)</text>
+      <circle cx="380" cy="83" r="18" fill="#E67E2222"/>
+      <image href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png" x="353" y="56" width="54" height="54"/>
+      <rect x="310" y="40" width="132" height="24" rx="5" fill="#1c1c3a"/>
+      <text x="376" y="57" text-anchor="middle" font-size="11" fill="#E67E22" font-weight="700">⚡ Raichu (90, 55)</text>
+      <rect x="215" y="93" width="70" height="22" rx="5" fill="#2a2a10"/>
+      <text x="250" y="109" text-anchor="middle" font-size="11" fill="#FFCC0088" font-weight="700">distancia = ?</text>
+    </svg>
+  </div>
+
+  <p class="pregunta" data-i18n="s3-q">❓ ¿Qué métrica usa internamente K-Means para medir la similitud entre estos dos Pokémon?</p>
+
+  <div class="options-grid" id="opts-sala3">
+    <div class="opt" onclick="selectOption(3, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s3-a">Distancia Euclídea: &nbsp;<code style="font-size:12px">√((90−55)² + (55−40)²)</code> &nbsp;— línea recta entre puntos</span>
+    </div>
+    <div class="opt" onclick="selectOption(3, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s3-b">Correlación de Pearson: mide relación lineal entre variables, no distancia</span>
+    </div>
+    <div class="opt" onclick="selectOption(3, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s3-c">Similitud Coseno: mide el ángulo entre vectores, no la proximidad espacial</span>
+    </div>
+    <div class="opt" onclick="selectOption(3, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s3-d">Distancia Manhattan: &nbsp;<code style="font-size:12px">|90−55| + |55−40|</code> &nbsp;— camino en cuadrícula</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala3">
+    <div class="feedback-box" id="fb-sala3-box">
+      <div class="fb-title" id="fb-sala3-title"></div>
+      <p id="fb-sala3-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="goTo('s-sala4')" data-i18n="s3-next">Siguiente Sala &nbsp;→</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 4 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala4">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-4">SALA 4 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-4">SALA 4</span>
+    <span class="sala-title" data-i18n="s4-title">🔄 La Convergencia</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s4-sc1">K-Means lleva ya <strong>6 iteraciones</strong> recalculando centroides. En la última iteración los centroides se han movido apenas <strong>Δ = 0.0001 unidades</strong>.</p>
+    <p data-i18n="s4-sc2">El diagrama muestra cómo el centroide de un cluster se acerca progresivamente a su posición final — cada iteración el movimiento es menor.</p>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 500 190" xmlns="http://www.w3.org/2000/svg">
+      <rect width="500" height="190" fill="#0d0d25"/>
+      <line x1="0" y1="95" x2="500" y2="95" stroke="#1a1a38" stroke-width="1" stroke-dasharray="4,4"/>
+      <circle cx="290" cy="98" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="305" cy="86" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="318" cy="110" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="280" cy="115" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="308" cy="120" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="295" cy="80" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="325" cy="96" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="275" cy="95" r="7" fill="#4a90d9" opacity=".85"/>
+      <circle cx="312" cy="74" r="7" fill="#4a90d9" opacity=".7"/>
+      <line x1="118" y1="54" x2="197" y2="77" stroke="#555577" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <polygon points="197,77 187,70 191,80" fill="#555577"/>
+      <line x1="222" y1="83" x2="278" y2="98" stroke="#555577" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <polygon points="278,98 268,91 269,101" fill="#555577"/>
+      <circle cx="108" cy="48" r="18" fill="#ff110011"/>
+      <text x="108" y="55" text-anchor="middle" font-size="22" fill="#ff5555" font-weight="900">✕</text>
+      <rect x="55" y="68" width="106" height="38" rx="5" fill="#2a0010"/>
+      <text x="108" y="83" text-anchor="middle" font-size="11" fill="#ff6666" font-weight="700" data-i18n="s4-iter1">Iteración 1</text>
+      <text x="108" y="100" text-anchor="middle" font-size="12" fill="#ff8888">Δ = 142.3</text>
+      <circle cx="213" cy="80" r="15" fill="#e6680011"/>
+      <text x="213" y="87" text-anchor="middle" font-size="20" fill="#e69a00" font-weight="900">✕</text>
+      <rect x="163" y="100" width="102" height="38" rx="5" fill="#201000"/>
+      <text x="214" y="115" text-anchor="middle" font-size="11" fill="#FFAA44" font-weight="700" data-i18n="s4-iter2">Iteración 2</text>
+      <text x="214" y="132" text-anchor="middle" font-size="12" fill="#e69a00">Δ = 34.6</text>
+      <circle cx="300" cy="100" r="16" fill="#00e67611"/>
+      <text x="300" y="107" text-anchor="middle" font-size="20" fill="#00e676" font-weight="900">✕</text>
+      <rect x="328" y="72" width="144" height="52" rx="5" fill="#003318"/>
+      <text x="400" y="90" text-anchor="middle" font-size="11" fill="#00e676" font-weight="700" data-i18n="s4-iter3">Iteración 3+</text>
+      <text x="400" y="107" text-anchor="middle" font-size="12" fill="#00cc66">Δ = 0.0001</text>
+      <text x="400" y="123" text-anchor="middle" font-size="11" fill="#00e676" font-weight="700" data-i18n="s4-converged">✓ CONVERGIDO</text>
+      <rect x="252" y="138" width="100" height="20" rx="4" fill="#001830"/>
+      <text x="302" y="152" text-anchor="middle" font-size="10" fill="#88bbff" data-i18n="s4-realcluster">🔵 Cluster real</text>
+    </svg>
+  </div>
+
+  <p class="pregunta" data-i18n="s4-q">❓ Δ = 0.0001 — ¿Qué hace K-Means ante este movimiento mínimo de los centroides?</p>
+
+  <div class="options-grid" id="opts-sala4">
+    <div class="opt" onclick="selectOption(4, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s4-a">Se detiene — los centroides han convergido (cambio menor que la tolerancia)</span>
+    </div>
+    <div class="opt" onclick="selectOption(4, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s4-b">Continúa hasta completar max_iter=300 — siempre ejecuta todas las iteraciones</span>
+    </div>
+    <div class="opt" onclick="selectOption(4, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s4-c">Reinicia con nuevos centroides — la convergencia rápida indica un mínimo local</span>
+    </div>
+    <div class="opt" onclick="selectOption(4, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s4-d">Divide los clusters más grandes para mejorar la inercia final</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala4">
+    <div class="feedback-box" id="fb-sala4-box">
+      <div class="fb-title" id="fb-sala4-title"></div>
+      <p id="fb-sala4-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="goTo('s-sala5')" data-i18n="s4-next">Siguiente Sala &nbsp;→</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 5 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala5">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-5">SALA 5 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-5">SALA 5</span>
+    <span class="sala-title" data-i18n="s5-title">⚖️ El StandardScaler</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s5-sc1">Tienes un dataset con Pokémon descrito por dos features: <strong>Peso</strong> (rango: 8–120 kg) y <strong>Velocidad</strong> (rango: 0.0–1.0). Aplicas K-Means <strong>sin escalar</strong> primero.</p>
+    <p data-i18n="s5-sc2">El diagrama compara cómo cada variable contribuye a la distancia Euclídea antes y después del escalado.</p>
+    <div class="poke-row" style="margin-top:12px;gap:24px;align-items:center">
+      <div class="poke-box">
+        <img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png" width="60" alt="Snorlax">
+        <span data-i18n="s5-snorlax">Snorlax — Peso: 460 kg</span>
+      </div>
+      <span style="font-size:22px;color:var(--muted)">⚔️ vs ⚔️</span>
+      <div class="poke-box">
+        <img class="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/135.png" width="60" alt="Jolteon">
+        <span data-i18n="s5-jolteon">Jolteon — Velocidad: 1.30</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="500" height="200" fill="#0d0d25"/>
+      <line x1="250" y1="10" x2="250" y2="200" stroke="#2e2e60" stroke-width="1.5" stroke-dasharray="5,5"/>
+      <rect x="18" y="14" width="118" height="24" rx="5" fill="#330010"/>
+      <text x="77" y="31" text-anchor="middle" font-size="12" fill="#ff6666" font-weight="700" data-i18n="s5-noscaler">❌ Sin StandardScaler</text>
+      <text x="22" y="72" font-size="13" fill="#ccccee" font-weight="600" data-i18n="s5-weight-kg">Peso (kg)</text>
+      <text x="22" y="116" font-size="13" fill="#ccccee" font-weight="600" data-i18n="s5-speed">Velocidad</text>
+      <rect x="118" y="58" width="120" height="18" rx="4" fill="#4a90d9"/>
+      <text x="240" y="72" font-size="11" fill="#88bbff" font-weight="700"> 112</text>
+      <rect x="118" y="102" width="1" height="18" rx="1" fill="#4a90d9"/>
+      <text x="124" y="116" font-size="11" fill="#ff8888" font-weight="700" data-i18n="s5-ignored"> 1.0 ← ignorada</text>
+      <rect x="18" y="140" width="220" height="50" rx="6" fill="#220010"/>
+      <text x="128" y="158" text-anchor="middle" font-size="11" fill="#ff6666" data-i18n="s5-eq1">En d²: Peso aporta (112)² = 12 544</text>
+      <text x="128" y="174" text-anchor="middle" font-size="11" fill="#ff4444" data-i18n="s5-eq2">Velocidad aporta (1.0)² = 1</text>
+      <text x="128" y="188" text-anchor="middle" font-size="10" fill="#ff3333" data-i18n="s5-eq3">→ Peso pesa 12 500× más</text>
+      <rect x="256" y="14" width="132" height="24" rx="5" fill="#003318"/>
+      <text x="322" y="31" text-anchor="middle" font-size="12" fill="#00e676" font-weight="700" data-i18n="s5-withscaler">✅ Con StandardScaler</text>
+      <text x="262" y="72" font-size="13" fill="#ccccee" font-weight="600" data-i18n="s5-weight-std">Peso (std)</text>
+      <text x="262" y="116" font-size="13" fill="#ccccee" font-weight="600" data-i18n="s5-speed-std">Vel. (std)</text>
+      <rect x="362" y="58" width="80" height="18" rx="4" fill="#00c853"/>
+      <text x="445" y="72" font-size="11" fill="#66ffaa" font-weight="700"> ±2σ</text>
+      <rect x="362" y="102" width="80" height="18" rx="4" fill="#00c853"/>
+      <text x="445" y="116" font-size="11" fill="#66ffaa" font-weight="700"> ±2σ</text>
+      <rect x="256" y="140" width="220" height="50" rx="6" fill="#003318"/>
+      <text x="366" y="158" text-anchor="middle" font-size="11" fill="#00cc66" data-i18n="s5-both">Ambas features entre -2 y +2</text>
+      <text x="366" y="174" text-anchor="middle" font-size="11" fill="#00e676" data-i18n="s5-equal">K-Means las trata por igual</text>
+      <text x="366" y="188" text-anchor="middle" font-size="10" fill="#00ff88" data-i18n="s5-correct">→ Clustering correcto ✓</text>
+    </svg>
+  </div>
+
+  <p class="pregunta" data-i18n="s5-q">❓ ¿Qué variable influirá casi exclusivamente en las distancias si NO escalas?</p>
+
+  <div class="options-grid" id="opts-sala5">
+    <div class="opt" onclick="selectOption(5, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s5-a">El Peso — su rango de 112 unidades aplasta a Velocidad (rango 1.0) en el cálculo de d²</span>
+    </div>
+    <div class="opt" onclick="selectOption(5, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s5-b">La Velocidad — las variables pequeñas son más precisas y K-Means las prioriza</span>
+    </div>
+    <div class="opt" onclick="selectOption(5, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s5-c">Ambas por igual — K-Means normaliza internamente las features antes de calcular</span>
+    </div>
+    <div class="opt" onclick="selectOption(5, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s5-d">Depende del random_state — sin escalar el resultado es completamente aleatorio</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala5">
+    <div class="feedback-box" id="fb-sala5-box">
+      <div class="fb-title" id="fb-sala5-title"></div>
+      <p id="fb-sala5-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="goTo('s-sala6')" data-i18n="s5-next">Siguiente Sala &nbsp;→</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: SALA 6 ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-sala6">
+
+  <div class="progress-wrap">
+    <div class="progress-label" data-i18n="prog-6">SALA 6 de 6</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  </div>
+
+  <div class="sala-header">
+    <span class="sala-badge" data-i18n="badge-6">SALA 6</span>
+    <span class="sala-title" data-i18n="s6-title">🌀 Las Formas Imposibles</span>
+  </div>
+
+  <div class="scenario-box">
+    <p data-i18n="s6-sc1">El Profesor Oak detecta dos grupos en el radar: un <strong>anillo interior</strong> (amarillo) y un <strong>anillo exterior</strong> (morado). Aplicas K-Means con K=2.</p>
+    <p data-i18n="s6-sc2">La línea roja muestra cómo K-Means intenta dividir los datos. Los centroides (✕) quedan en lugares inesperados.</p>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="500" height="200" fill="#0d0d25"/>
+      <line x1="250" y1="5" x2="250" y2="195" stroke="#ff4444" stroke-width="2.5" stroke-dasharray="8,5" opacity=".7"/>
+      <circle cx="250" cy="100" r="22" fill="#0d0d2599"/>
+      <image href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/101.png" x="227" y="77" width="46" height="46"/>
+      <circle cx="300" cy="100" r="7" fill="#FFCC00"/>
+      <circle cx="288" cy="132" r="7" fill="#FFCC00"/>
+      <circle cx="259" cy="149" r="7" fill="#FFCC00"/>
+      <circle cx="225" cy="143" r="7" fill="#FFCC00"/>
+      <circle cx="203" cy="117" r="7" fill="#FFCC00"/>
+      <circle cx="203" cy="83"  r="7" fill="#FFCC00"/>
+      <circle cx="225" cy="57"  r="7" fill="#FFCC00"/>
+      <circle cx="259" cy="51"  r="7" fill="#FFCC00"/>
+      <circle cx="288" cy="68"  r="7" fill="#FFCC00"/>
+      <circle cx="335" cy="100" r="7" fill="#9B59B6"/>
+      <circle cx="319" cy="150" r="7" fill="#9B59B6"/>
+      <circle cx="276" cy="181" r="7" fill="#9B59B6"/>
+      <circle cx="224" cy="177" r="7" fill="#9B59B6"/>
+      <circle cx="181" cy="150" r="7" fill="#9B59B6"/>
+      <circle cx="165" cy="100" r="7" fill="#9B59B6"/>
+      <circle cx="181" cy="50"  r="7" fill="#9B59B6"/>
+      <circle cx="224" cy="23"  r="7" fill="#9B59B6"/>
+      <circle cx="276" cy="19"  r="7" fill="#9B59B6"/>
+      <circle cx="319" cy="50"  r="7" fill="#9B59B6"/>
+      <text x="175" y="108" text-anchor="middle" font-size="20" fill="#ff4444" font-weight="900">✕</text>
+      <rect x="102" y="115" width="108" height="20" rx="4" fill="#2a0010"/>
+      <text x="156" y="130" text-anchor="middle" font-size="10" fill="#ff6666" font-weight="700" data-i18n="s6-k1">Cluster K1 (mitad izq.)</text>
+      <text x="325" y="108" text-anchor="middle" font-size="20" fill="#ff4444" font-weight="900">✕</text>
+      <rect x="292" y="115" width="108" height="20" rx="4" fill="#2a0010"/>
+      <text x="346" y="130" text-anchor="middle" font-size="10" fill="#ff6666" font-weight="700" data-i18n="s6-k2">Cluster K2 (mitad der.)</text>
+      <circle cx="22" cy="16" r="6" fill="#FFCC00"/>
+      <text x="34" y="21" font-size="11" fill="#FFCC00" font-weight="600" data-i18n="s6-inner">Anillo interior (grupo real 1)</text>
+      <circle cx="22" cy="36" r="6" fill="#9B59B6"/>
+      <text x="34" y="41" font-size="11" fill="#BB88DD" font-weight="600" data-i18n="s6-outer">Anillo exterior (grupo real 2)</text>
+      <rect x="88" y="150" width="324" height="20" rx="4" fill="#330010"/>
+      <text x="250" y="165" text-anchor="middle" font-size="11" fill="#ff6666" font-weight="700" data-i18n="s6-err">❌ K-Means mezcla puntos de ambos anillos en cada cluster</text>
+    </svg>
+  </div>
+
+  <p class="pregunta" data-i18n="s6-q">❓ ¿Por qué K-Means falla con los anillos concéntricos y qué alternativa usarías?</p>
+
+  <div class="options-grid" id="opts-sala6">
+    <div class="opt" onclick="selectOption(6, 0, this)">
+      <span class="opt-letter">A</span>
+      <span class="opt-text" data-i18n="s6-a">K-Means asume clusters esféricos/convexos — para formas no convexas usar DBSCAN o Clustering Espectral</span>
+    </div>
+    <div class="opt" onclick="selectOption(6, 1, this)">
+      <span class="opt-letter">B</span>
+      <span class="opt-text" data-i18n="s6-b">K-Means detecta los anillos perfectamente — el diagrama mostrado es incorrecto</span>
+    </div>
+    <div class="opt" onclick="selectOption(6, 2, this)">
+      <span class="opt-letter">C</span>
+      <span class="opt-text" data-i18n="s6-c">Subir K a 4 o más clusters resuelve el problema de los anillos con K-Means</span>
+    </div>
+    <div class="opt" onclick="selectOption(6, 3, this)">
+      <span class="opt-letter">D</span>
+      <span class="opt-text" data-i18n="s6-d">El problema es el StandardScaler — sin escalar K-Means detecta los anillos correctamente</span>
+    </div>
+  </div>
+
+  <div class="feedback-panel" id="fb-sala6">
+    <div class="feedback-box" id="fb-sala6-box">
+      <div class="fb-title" id="fb-sala6-title"></div>
+      <p id="fb-sala6-text"></p>
+    </div>
+    <button class="btn btn-next show" onclick="finishGame()" data-i18n="s6-finish">Ver mi Resultado &nbsp;🏆</button>
+  </div>
+
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: FINAL ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-final">
+  <div class="medal-icon" id="final-medal"></div>
+  <img id="final-pokemon" class="poke-sprite" style="width:100px;margin:0 auto;" src="" alt="">
+  <div class="final-score" id="final-score"></div>
+  <div class="score-dots"  id="final-dots"></div>
+  <div class="final-label" id="final-label"></div>
+  <div class="final-name"  id="final-name"></div>
+  <br>
+  <button class="btn btn-primary" onclick="goTo('s-report'); buildReport()" data-i18n="btn-report">
+    📋 &nbsp; Ver Reporte del Profesor
+  </button>
+  <button class="btn btn-report" onclick="goTo('s-sala1'); resetGame()" data-i18n="btn-restart">
+    🔄 &nbsp; Volver a empezar
+  </button>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ SCREEN: REPORT ━━━━━━━━━━━━━━━━ -->
+<div class="screen" id="s-report">
+
+  <div class="report-header">
+    <h1 data-i18n="report-title">📋 Reporte del Profesor</h1>
+    <p style="color:var(--muted);font-size:14px" data-i18n="report-subtitle">Escape Room: La Cueva de los Centroides</p>
+    <div class="report-meta" id="report-meta"></div>
+  </div>
+
+  <div id="report-salas"></div>
+
+  <div class="report-summary" id="report-summary"></div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;" class="no-print">
+    <button class="btn btn-print" onclick="window.print()" data-i18n="btn-print">🖨️ &nbsp; Imprimir Reporte</button>
+    <button class="btn btn-report" onclick="goTo('s-final')" data-i18n="btn-back">← &nbsp; Volver</button>
+  </div>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
