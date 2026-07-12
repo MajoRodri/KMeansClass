@@ -1,6 +1,12 @@
-# 🧠 K-Means Clustering — Masterclass Pokémon
+<table width="100%">
+  <tr>
+    <td width="120" align="center"><img src="image/Pokeball.png" width="110"></td>
+    <td align="center"><h1> K-Means Clustering — Masterclass Pokémon</h1></td>
+    <td width="120" align="center"><img src="image/Pokeball.png" width="110"></td>
+  </tr>
+</table>
 
-> 🎓 **Repositorio académico** | Bootcamp de Machine Learning
+> 🎓 **Repositorio académico** | Bootcamp
 > 📌 Módulo: Aprendizaje No Supervisado — K-Means Clustering
 > 🎮 Temática: Pokémon
 
@@ -562,3 +568,9 @@ You are a Pokémon Trainer trapped in the **Cave of the Centroids**. To escape y
 ```
 
 </details>
+
+---
+
+<img src="image/Pokeball.png" width="110" align="left">
+<img src="image/Pokeball.png" width="110" align="right">
+<br clear="both">
