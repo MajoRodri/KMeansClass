@@ -442,7 +442,11 @@ Notebooks are Python files where you can run code step by step, like an interact
 
 ## 🎮 Escape Room — "La Cueva de los Centroides"
 
-Un **juego web interactivo** para poner a prueba lo aprendido. Solo tienes que abrir el archivo `index.html` en cualquier navegador. No necesita instalación ni internet.
+Un **juego web interactivo** para poner a prueba lo aprendido. Puedes jugarlo directamente en el navegador sin instalar nada:
+
+🔗 **[Jugar ahora → majorodri.github.io/KMeansClass](https://majorodri.github.io/KMeansClass/)**
+
+O si prefieres, descarga el repositorio y abre el archivo `index.html` localmente.
 
 <details>
 <summary>🕹️ <strong>Ver cómo funciona el juego</strong></summary>
