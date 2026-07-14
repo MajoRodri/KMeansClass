@@ -579,8 +579,47 @@
 
     /* ── POKEMON SPRITES ───────────────────────────────────────── */
     .poke-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-    .poke-sprite { image-rendering:pixelated; filter:drop-shadow(0 0 8px rgba(255,204,0,.55)); transition:transform .25s; }
+    .poke-sprite { image-rendering:pixelated; filter:drop-shadow(0 0 8px rgba(255,204,0,.55)); transition:transform .25s; width:clamp(44px,12vw,64px); height:auto; }
     .poke-sprite:hover { transform:scale(1.2) rotate(-4deg); cursor:default; }
     .poke-box { text-align:center; }
     .poke-box span { display:block; font-size:11px; color:var(--muted); margin-top:2px; }
+
+    /* ── RESPONSIVE: FLUID TYPE & SPACING ─────────────────── */
+    .tagline      { font-size: clamp(13px, 3vw, 15px); }
+    .scenario-box { font-size: clamp(13px, 3.2vw, 15px); }
+    .pregunta     { font-size: clamp(14px, 3.5vw, 17px); }
+    .opt-text     { font-size: clamp(12px, 2.8vw, 14px); }
+    .final-score  { font-size: clamp(24px, 7vw, 36px); }
+    .final-label  { font-size: clamp(17px, 4vw, 22px); }
+    .score-dots   { font-size: clamp(22px, 5.5vw, 28px); }
+
+    #lang-toggle { min-height: 44px; min-width: 44px; padding: 10px 16px; }
+
+    /* Tablet (≤768px) */
+    @media (max-width: 768px) {
+      .screen       { padding: 20px 16px 48px; }
+      .story-card   { padding: 24px 20px; }
+      .card         { padding: 22px 20px; }
+      .scenario-box { padding: 16px 18px; }
+      .feedback-box { padding: 14px 18px; }
+    }
+
+    /* Mobile (≤480px) */
+    @media (max-width: 480px) {
+      .screen       { padding: 16px 12px 40px; }
+      .pokeball     { width: 80px; height: 80px; }
+      .pokeball::after { width: 22px; height: 22px; }
+      .sala-header  { gap: 10px; margin-bottom: 16px; }
+      .poke-row     { gap: 6px; }
+      .btn          { padding: 12px 20px; font-size: 15px; }
+      .opt          { padding: 12px 14px; gap: 10px; }
+      .opt-letter   { width: 32px; height: 32px; font-size: 13px; }
+      .feedback-box { padding: 12px 14px; }
+      .scenario-box { padding: 14px 16px; }
+      .story-card   { padding: 20px 16px; }
+      .card         { padding: 18px 16px; }
+      .report-sala  { padding: 14px 16px; }
+      .report-summary { padding: 16px 18px; }
+      .story-card .cave-icon { font-size: 48px; }
+    }
   
