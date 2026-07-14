@@ -107,12 +107,16 @@
       font-size: 17px; font-weight: 800;
       cursor: pointer;
       transition: all .2s ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .btn-primary {
       background: var(--yellow);
       color: #111;
     }
-    .btn-primary:hover { background: #ffd740; transform: scale(1.05); }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-primary:hover { background: #ffd740; transform: scale(1.05); }
+    }
 
     .btn-next {
       background: var(--blue);
@@ -121,7 +125,9 @@
       display: none;
     }
     .btn-next.show { display: inline-block; }
-    .btn-next:hover { background: #5da0e8; transform: scale(1.04); }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-next:hover { background: #5da0e8; transform: scale(1.04); }
+    }
 
     .btn-report {
       background: transparent;
@@ -130,14 +136,18 @@
       font-size: 14px;
       margin-top: 10px;
     }
-    .btn-report:hover { border-color: var(--yellow); color: var(--yellow); }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-report:hover { border-color: var(--yellow); color: var(--yellow); }
+    }
 
     .btn-print {
       background: #333355;
       color: white;
       font-size: 14px;
     }
-    .btn-print:hover { background: #44447a; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-print:hover { background: #44447a; }
+    }
 
     /* ── INPUTS ────────────────────────────────────────────────── */
     .name-input {
@@ -275,11 +285,15 @@
       gap: 14px;
       transition: border-color .2s, background .2s, transform .15s;
       text-align: left;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
-    .opt:hover:not(.disabled) {
-      border-color: var(--yellow);
-      background: #22224a;
-      transform: translateX(4px);
+    @media (hover: hover) and (pointer: fine) {
+      .opt:hover:not(.disabled) {
+        border-color: var(--yellow);
+        background: #22224a;
+        transform: translateX(4px);
+      }
     }
     .opt.disabled { cursor: default; }
 
@@ -575,12 +589,16 @@
       transition: border-color .2s, background .2s;
       letter-spacing: 1px;
     }
-    #lang-toggle:hover { border-color: var(--yellow); background: #22224a; }
+    @media (hover: hover) and (pointer: fine) {
+      #lang-toggle:hover { border-color: var(--yellow); background: #22224a; }
+    }
 
     /* ── POKEMON SPRITES ───────────────────────────────────────── */
     .poke-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
     .poke-sprite { image-rendering:pixelated; filter:drop-shadow(0 0 8px rgba(255,204,0,.55)); transition:transform .25s; width:clamp(44px,12vw,64px); height:auto; }
-    .poke-sprite:hover { transform:scale(1.2) rotate(-4deg); cursor:default; }
+    @media (hover: hover) and (pointer: fine) {
+      .poke-sprite:hover { transform:scale(1.2) rotate(-4deg); }
+    }
     .poke-box { text-align:center; }
     .poke-box span { display:block; font-size:11px; color:var(--muted); margin-top:2px; }
 
